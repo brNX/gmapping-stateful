@@ -1,0 +1,10 @@
+--- ./configfile/configfile.cpp	2007-09-07 01:56:13.000000000 -0700
++++ ../../gmapping_export/configfile/configfile.cpp	2011-10-24 14:39:43.453237441 -0700
+@@ -30,6 +30,7 @@
+ #include <sstream>
+ #include <iostream>
+ #include <ctype.h>
++#include <cstdlib>
+ 
+ namespace GMapping{
+ using namespace std;
