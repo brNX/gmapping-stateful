@@ -161,8 +161,10 @@ void RemoteGridSlamProcessor::processScan(double * plainReading, zmq::socket_t &
 
         zmq::message_t reply_message(replysize);
         memcpy(reply_message.data(),sendarray,replysize);
+	#pragma omp critical
+	{
         remotersesponsequeue.send(reply_message);
-
+	}
         //send it
         /*zmq::message_t reply_message(&sendarray,replysize,NULL,NULL); //zero copy
         remotersesponsequeue.send(reply_message);*/

@@ -9,7 +9,7 @@ include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
 
-set(ROS_BUILD_TYPE Release)
+#set(ROS_BUILD_TYPE Release)
 
 rosbuild_init()
 
@@ -17,13 +17,13 @@ rosbuild_init()
 rosbuild_add_boost_directories()
 
 
-#FIND_PACKAGE( OpenMP REQUIRED)
-#if(OPENMP_FOUND)
-#message("OPENMP FOUND")
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-#endif()
+FIND_PACKAGE( OpenMP REQUIRED)
+if(OPENMP_FOUND)
+message("OPENMP FOUND")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 #SET (CMAKE_C_COMPILER	"/usr/bin/clang")
 #SET (CMAKE_CXX_COMPILER "/usr/bin/clang++")
@@ -57,15 +57,3 @@ rosbuild_link_boost(bin/slam_gmapping signals)
 rosbuild_add_executable(bin/dp_worker src/dp_worker.cpp src/remotegridslamprocessor.cpp src/gmapping/gridfastslam/motionmodel.cpp src/gmapping/scanmatcher/scanmatcher.cpp src/protobuf/particle_reading.pb.cc src/protobuf/protobufhelper.cpp src/gmapping/scanmatcher/smmap.cpp src/gmapping/utils/movement.cpp src/gmapping/utils/stat.cpp)
 target_link_libraries(bin/dp_worker ${PROTOBUF_LIBRARY} ${ZMQ_LIBRARY} ${CZMQ_LIBRARY})
 rosbuild_link_boost(bin/dp_worker  program_options)
-
-#rosbuild_add_executable(test/rtest EXCLUDE_FROM_ALL test/rtest.cpp)
-#rosbuild_add_gtest_build_flags(test/rtest)
-#rosbuild_declare_test(test/rtest)
-
-# Need to make the tests more robust; currently the output map can differ
-# substantially between runs.
-#rosbuild_download_test_data(http://pr.willowgarage.com/data/gmapping/basic_localization_stage_indexed.bag #test/basic_localization_stage_indexed.bag 322a0014f47bcfbb0ad16a317738b0dc)
-#rosbuild_download_test_data(http://pr.willowgarage.com/data/gmapping/hallway_slow_2011-03-04-21-41-33.bag #test/hallway_slow_2011-03-04-21-41-33.bag e772b89713693adc610f4c5b96f5dc03)
-#rosbuild_download_test_data(http://pr.willowgarage.com/data/gmapping/basic_localization_stage_groundtruth.pgm #test/basic_localization_stage_groundtruth.pgm abf208f721053915145215b18c98f9b3)
-#rosbuild_add_rostest(test/basic_localization_stage.launch)
-#rosbuild_add_rostest(test/basic_localization_laser_different_beamcount.test)

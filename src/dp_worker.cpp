@@ -266,6 +266,7 @@ int main (int argc, char *argv[])
                 plainReading[i]=sensordata.plainreading(i);
             }
 
+            #pragma omp parallel for
             for(unsigned int i = 0 ; i < rgslamprocessor.m_particles.size(); i++){
                 unsigned int currentindex = vindexes[i]; //get corresponding global index
 
